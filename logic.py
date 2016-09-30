@@ -1,6 +1,4 @@
 from math import floor
-from sys import stderr
-
 from settings import Settings
 from state import State
 
@@ -20,9 +18,9 @@ def get_available_moves(settings: Settings, state: State):
 
     my_position = get_coordinate_for(settings, state.get_field(), settings.get_your_botid())
     neighboring_fields = get_neighboring_fields(settings, state.get_field(), my_position)
-    available_moves = [Move.none]
+    available_moves = [Move.none.value]
 
-    for move, field_value in neighboring_fields:
+    for move, field_value in neighboring_fields.items():
         if field_value is not 'x':
             available_moves.append(move)
 
@@ -48,7 +46,7 @@ def get_neighboring_fields(settings: Settings, field, coordinate):
         'right': {'x': coordinate['x'] + 1, 'y': coordinate['y']},
     }
     
-    for direction_name, direction_coordinate in directions:
+    for direction_name, direction_coordinate in directions.items():
         if is_in_bounds(settings, direction_coordinate):
             direction_index = coordinate_to_index(settings, direction_coordinate)
             neighboring_fields[direction_name] = field[direction_index]
@@ -58,8 +56,7 @@ def get_neighboring_fields(settings: Settings, field, coordinate):
 
 def index_to_coordinate(settings: Settings, index):
     if index >= get_field_size(settings):
-        stderr.write('index > fieldsize\n')
-        stderr.flush()
+        return None
 
     field_width = settings.get_field_width()
     x = index % field_width

@@ -70,7 +70,7 @@ class Bot(object):
 
                 elif command == 'update':
                     if parts[1] == 'game':
-                        self.update_game(parts[1:])
+                        self.update_game(parts[2:])
                     else:
                         self.update_player_data(parts[1:])
 
@@ -78,7 +78,7 @@ class Bot(object):
                     self.update_action(parts[1:])
 
                 else:
-                    stderr.write('Unknown command: %s\n' % (command))
+                    stderr.write('Unknown command: {}\n'.format(command))
                     stderr.flush()
             except EOFError:
                 return
@@ -96,17 +96,12 @@ class Bot(object):
         self.settings = self.settings.update(key, value)
 
     def update_game(self, options):
-        self.print_var('update_game')
-        self.print_var(options)
-
         if options[0] == 'round':
             self.state = self.state.update('round', int(options[1]))
         elif options[0] == 'field':
             self.state = self.state.update('field', options[1].split(','))
 
     def update_player_data(self, options):
-        self.print_var('update_player_data')
-        self.print_var(options)
         player_id, attribute, value = options
 
         players = self.state.get_players()
@@ -127,18 +122,15 @@ class Bot(object):
         self.state = self.state.update('players', players)
 
     def update_action(self, options):
-        self.print_var('update_action')
-        self.print_var(options)
         if options[0] == 'move':
             self.settings = self.settings.update('timebank', options[1])
             self.do_unreversed_move()
 
     def do_unreversed_move(self):
-        self.print_var(self.state)
         valid_moves = get_available_moves(self.settings, self.state)
         if self.previous_move:
             valid_moves.remove(self.previous_move)
-        stdout.write(random.choice(valid_moves).value + '\n')
+        stdout.write('{}\n'.format(random.choice(valid_moves)))
         stdout.flush()
 
 

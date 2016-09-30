@@ -11,10 +11,10 @@ class Settings:
         self.max_rounds = max_rounds
 
     def get_timebank(self):
-        return self.timebank
+        return int(self.timebank)
 
     def get_time_per_move(self):
-        return self.time_per_move
+        return int(self.time_per_move)
 
     def get_player_names(self):
         return self.player_names
@@ -26,13 +26,13 @@ class Settings:
         return self.your_botid
 
     def get_field_width(self):
-        return self.field_width
+        return int(self.field_width)
 
     def get_field_height(self):
-        return self.field_height
+        return int(self.field_height)
 
     def get_max_rounds(self):
-        return self.max_rounds
+        return int(self.max_rounds)
 
     def update(self, key, value):
         new_settings = self.__dict__.copy()
