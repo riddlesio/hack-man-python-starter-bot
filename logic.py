@@ -2,6 +2,7 @@ from math import floor
 from sys import stderr
 
 from settings import Settings
+from state import State
 
 
 def is_in_bounds(settings: Settings, coordinate):
@@ -14,7 +15,7 @@ def is_in_bounds(settings: Settings, coordinate):
     return True
 
 
-def get_available_moves(settings: Settings, state):
+def get_available_moves(settings: Settings, state: State):
     from bot import Move
 
     my_position = get_coordinate_for(settings, state.get_field(), settings.get_your_botid())
